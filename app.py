@@ -9,20 +9,17 @@ import fitz
 from PIL import Image, ImageTk
 import re
 
-# === Globals ===
-opened_files = []  # List of dicts: {path, content, text_widget}
+opened_files = []  
 excel_sheets = {}
 current_match_indices = []
 current_match_position = 0
 
-# === Helper ===
 def get_current_text_widget():
     if not opened_files:
         return None
     current_tab = notebook.index(notebook.select())
     return opened_files[current_tab]["text_widget"]
 
-# === Search/Replace Functions ===
 def search_and_replace():
     search_term = search_entry.get()
     replace_term = replace_entry.get()
@@ -111,7 +108,6 @@ def prev_match():
         current_match_position = (current_match_position - 1) % len(current_match_indices)
         focus_current_match()
 
-# === File Readers ===
 def read_docx(file_path):
     doc = Document(file_path)
     return '\n'.join(p.text for p in doc.paragraphs)
@@ -244,7 +240,6 @@ def save_file():
     text_widget = selected["text_widget"]
     new_content = text_widget.get(1.0, tk.END).strip()
 
-    # File type filters per original extension
     filetypes_map = {
         '.pdf': [("PDF files", "*.pdf")],
         '.docx': [("Word Documents", "*.docx")],
@@ -334,12 +329,11 @@ def clear_output():
     notebook.forget(current_tab)
     del opened_files[index]
 
-    # Reset sheet selector if Excel file was removed
+    
     if not opened_files:
         sheet_selector.set('')
         sheet_selector['values'] = []
     else:
-        # Check if the new current file is Excel
         new_index = min(index, len(opened_files) - 1)
         new_path = opened_files[new_index]["path"]
         ext = os.path.splitext(new_path)[1].lower()
@@ -351,7 +345,7 @@ def clear_output():
             sheet_selector['values'] = []
 
 
-# === GUI Setup ===
+
 root = tk.Tk()
 root.title("\U0001F4C1 Smart File Reader & Editor Tool")
 root.geometry("1000x650")
@@ -416,7 +410,7 @@ sheet_selector = ttk.Combobox(sheet_selector_row, state="readonly", width=30)
 sheet_selector.pack(side="left")
 sheet_selector.bind("<<ComboboxSelected>>", on_sheet_selected)
 
-# === Notebook ===
+
 notebook = ttk.Notebook(root)
 notebook.pack(fill="both", expand=True, padx=10, pady=10)
 
@@ -425,7 +419,7 @@ footer = tk.Label(
     text="――――――――――――――――――――――――――\n❤️ Crafted with care by Garima Roy",
     font=("Segoe UI", 9, "italic"),
     bg="#f0f2f5",
-    fg="#ff4d4f",  # A nice red color
+    fg="#ff4d4f",  
     justify="center"
 )
 footer.pack(side="bottom", fill="x", pady=(0, 5))
