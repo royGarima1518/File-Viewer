@@ -1,4 +1,4 @@
-# Smart File Reader & Editor Tool
+# Smart File Reader & Editor Tool🔎
 
 This is a Python-based GUI application built with Tkinter that allows users to open, edit, search, and replace content in a variety of file formats, including:
 
